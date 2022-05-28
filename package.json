@@ -1,0 +1,10 @@
+{
+  "name": "nodeposterr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "tiagostn",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.7.2"
+  }
+}
