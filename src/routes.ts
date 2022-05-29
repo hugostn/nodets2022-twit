@@ -1,5 +1,5 @@
 import { Application, Router } from 'express';
-import IndexController from 'src/controllers/IndexController';
+import IndexController from './controllers/IndexController';
 
 const routes: [string, Router][] = [
   ['/', IndexController],
