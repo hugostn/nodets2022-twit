@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  posterr_db:
+    image: postgres:12.2-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: posterr
+      POSTGRES_USER: posterr
+      POSTGRES_PASSWORD: posterr
+    command: -c fsync=off -c full_page_writes=false -c log_statement=none
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
