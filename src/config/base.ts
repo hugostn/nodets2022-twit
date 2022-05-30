@@ -5,6 +5,6 @@ export default {
     host: 'localhost',
     database: 'posterr',
     password: 'posterr',
-    port: 5432,
+    port: 5433,
   },
 };

@@ -1,8 +1,8 @@
 type Post = {
   id: string,
-  userId: string,
+  user_id: string,
   type: string,
-  postedAt: string,
+  posted_at: Date,
   content: string,
   refer?: string,
 }

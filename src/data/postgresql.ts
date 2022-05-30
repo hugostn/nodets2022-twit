@@ -8,3 +8,7 @@ const databaseUrl = `postgresql://${user}:${password}@${host}:${port}/${database
 
 const pool = createPool(databaseUrl);
 export default pool;
+
+export type QueriedCount = {
+  count: number;
+}

@@ -1,15 +1,12 @@
 import { sql } from 'slonik';
+import { v4 as uuidv4 } from 'uuid';
 import Post from '../models/Post';
 import db from './postgresql';
 
 export default class PostDao {
-  static async findOne(id: string) : Promise<Post[]> {
-    const result = await db.connect((conn) => conn.query<Post>(sql`
-      SELECT *
-      FROM post
-      WHERE id = ${id}
-    `));
-    return [...result.rows];
+  static async findOne(id: string) : Promise<Post> {
+    const result: Post = await db.one(sql`select * from post where id = ${id}`);
+    return result;
   }
 
   static async findByUsername(
@@ -26,5 +23,21 @@ export default class PostDao {
       limit ${size} offset ${offset}
     `));
     return [...result.rows];
+  }
+
+  static async insert(post: Post) : Promise<string> {
+    const postId = uuidv4();
+    await db.query(sql`
+      insert into post(id, user_id, type, content, refer)
+      values (${postId}, ${post.user_id}, ${post.type}, ${post.content}, ${post.refer ?? null})
+    `);
+    return postId;
+  }
+
+  static async countPostsToday(userId: string) : Promise<any> {
+    const result = await db.one(sql`
+      select count(*) from post where user_id = ${userId} and date_trunc('day', posted_at) = CURRENT_DATE
+    `);
+    return result.count;
   }
 }

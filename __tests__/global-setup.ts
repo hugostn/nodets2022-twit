@@ -8,7 +8,7 @@ const exec = (cmd: string) => {
 
 export default async (): Promise<void> => {
   console.log('Preparing local postgres');
-  exec(`cat ${__dirname}/postgresql/database/create-tables.sql ${__dirname}/postgresql/database/populate.sql >> ${__dirname}/postgresql/database/init.sql`);
+  exec(`cat ${__dirname}/postgresql/database/create-tables.sql ${__dirname}/postgresql/database/populate.sql > ${__dirname}/postgresql/database/init.sql`);
   console.log('Launching docker container');
   exec('docker-compose -f "__tests__/postgresql/docker-compose-yml" up --force-recreate -d -V');
   console.log('...waiting to start');
