@@ -28,7 +28,14 @@ export default class PostDao {
   static async getFeed(page: number = 1, size: number = 10) : Promise<Post[]> {
     const offset = (page - 1) * size;
     const result = await db.connect((conn) => conn.query<Post>(sql`
-      select p.id, p.user_id, p.type, p.posted_at, p.content, p.refer
+      select p.id, p.user_id, p.type, p.posted_at, p.content,
+      ( select json_agg(t)
+        from (
+          select pr.id, pr.user_id, pr.type, pr.posted_at, pr.content, pr.refer
+          from post pr
+          where pr.id = p.refer
+        ) t
+      ) as refer
       from post p
       order by p.posted_at desc
       limit ${size} offset ${offset}
@@ -43,7 +50,14 @@ export default class PostDao {
   ) : Promise<Post[]> {
     const offset = (page - 1) * size;
     const result = await db.connect((conn) => conn.query<Post>(sql`
-      select p.id, p.user_id, p.type, p.posted_at, p.content, p.refer
+      select p.id, p.user_id, p.type, p.posted_at, p.content,
+        ( select json_agg(t)
+          from (
+            select pr.id, pr.user_id, pr.type, pr.posted_at, pr.content, pr.refer
+            from post pr
+            where pr.id = p.refer
+          ) t
+        ) as refer
       from post p
       where p.user_id in
         (
