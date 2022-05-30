@@ -14,8 +14,8 @@ export type PostPostBody = {
 
 export type GetPostBody = {
   username: string,
-  page?: number,
-  size?: number,
+  page?: string,
+  size?: string,
 };
 
 PostController.post('', async (req: Request<PostPostBody>, res: Response, next: NextFunction) => {
@@ -27,8 +27,11 @@ PostController.post('', async (req: Request<PostPostBody>, res: Response, next: 
   }
 });
 
-PostController.get('/byusername/:username', async (req: Request<GetPostBody>, res: Response) => {
-  const { username, page, size } = req.params;
+PostController.get('/byusername/:username', async (req: Request<GetPostBody, GetPostBody>, res: Response) => {
+  const { username } = req.params;
+  const { page: pageParam, size: sizeParam } = req.query;
+  const page = !pageParam ? undefined : Number(pageParam);
+  const size = !sizeParam ? undefined : Number(sizeParam);
   const result = await PostService.findByUsername(username, page, size);
   res.json({ data: result });
 });
