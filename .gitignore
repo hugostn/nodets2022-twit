@@ -4,6 +4,7 @@ node_modules/
 .yarn
 coverage/
 __tests__/postgresql/database/init.sql
+*.zip
 
 .vscode/*
 !.vscode/settings.json

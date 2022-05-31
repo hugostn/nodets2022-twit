@@ -10,6 +10,8 @@ Requeriments:
 
 First time install:
 
+**_NOTE:_** you should have a postgresql instance for develop. You can use the file `__tests__/postgresql/docker-compose.yml` to start one. You also can create the database with the scripts in `__tests__/postgresql/database/`.
+
 ```sh
 # install dependencies
 yarn
@@ -25,10 +27,12 @@ yarn start
 yarn
 # start server in dev watch mode
 yarn dev
+# run tests
+yarn test
 # start tests in watch mode for bdd
 yarn watch
 # starup dev postgresql server
-bin/stackp.sh
+bin/stackup.sh
 # shutdown dev postgresql server
 bin/stackdown.sh
 ```
