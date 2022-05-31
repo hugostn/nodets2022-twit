@@ -29,5 +29,15 @@ class PostService {
     const postId = await PostData.insert(post);
     return postId;
   }
+
+  static async findByContentLike(
+    key: string | null,
+    page: number = 1,
+    size: number = 5,
+  ) : Promise<Post[]> {
+    if (!key) return [];
+    const posts = await PostData.findByContentLike(key, page, size);
+    return posts;
+  }
 }
 export default PostService;

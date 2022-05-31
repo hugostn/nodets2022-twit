@@ -45,6 +45,8 @@ For environment database server edit file src/config/base.ts or create other env
 - http://localhost:3030/feed - all posts
 - http://localhost:3030/feed?page=3 - all posts page 3
 - http://localhost:3030/feed?page=3&size=15 - all posts page 3, pageSize 15
+- http://localhost:3030/feed/search/user10 - search for user10 word in posts comments
+- http://localhost:3030/posts/search/quote - search for quote word in posts comments
 
 ## Planning
 

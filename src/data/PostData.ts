@@ -91,4 +91,29 @@ export default class PostDao {
     `);
     return result.count;
   }
+
+  static async findByContentLike(
+    key: string,
+    page: number = 1,
+    size: number = 10,
+  ) : Promise<Post[]> {
+    const offset = (page - 1) * size;
+    const curatedKey = `%${key}%`;
+    const result = await db.connect((conn) => conn.query<Post>(sql`
+      select p.id, p.user_id, p.type, p.posted_at, p.content,
+      ( select json_agg(t)
+        from (
+          select pr.id, pr.user_id, pr.type, pr.posted_at, pr.content, pr.refer
+          from post pr
+          where pr.id = p.refer
+        ) t
+      ) as refer
+      from post p
+      where p.content like ${curatedKey}
+        and p.type <> 'repost'
+      order by p.posted_at desc
+      limit ${size} offset ${offset}
+    `));
+    return [...result.rows];
+  }
 }

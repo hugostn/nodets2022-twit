@@ -14,8 +14,13 @@ export type PostPostBody = {
 
 export type GetPostBody = {
   username: string,
+  key?: string,
   page?: string,
   size?: string,
+};
+
+export type GetSearchPostParams = {
+  key: string,
 };
 
 PostController.post('', async (req: Request<PostPostBody>, res: Response, next: NextFunction) => {
@@ -33,6 +38,15 @@ PostController.get('/byusername/:username', async (req: Request<GetPostBody, Get
   const page = !pageParam ? undefined : Number(pageParam);
   const size = !sizeParam ? undefined : Number(sizeParam);
   const result = await PostService.findByUsername(username, page, size);
+  res.json({ data: result });
+});
+
+PostController.get('/search/:key', async (req: Request<GetPostBody>, res: Response) => {
+  const { key } = req.params;
+  const { page: pageParam, size: sizeParam } = req.query;
+  const page = !pageParam ? undefined : Number(pageParam);
+  const size = !sizeParam ? undefined : Number(sizeParam);
+  const result = await PostService.findByContentLike(key ?? null, page, size);
   res.json({ data: result });
 });
 

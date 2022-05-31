@@ -25,6 +25,7 @@ IndexController.get('/', (req: Request, res: Response) => res.json({
     post: [
       'POST /posts',
       'GET /posts/byusername/{id}',
+      'GET /posts/search/{key}',
     ],
   },
 }));
