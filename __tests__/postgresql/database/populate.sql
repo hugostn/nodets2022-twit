@@ -35,10 +35,39 @@ begin
    	close cur_post;
 end populate_db $$;
 
--- select * from users;
--- select * from post;
-/*
-select
-	(select count(*) from users) as users,
-	(select count(*) from post) as post
-*/
+-- add followers sample
+insert into follower (user_id, follower_id)
+values ((select id from users where username='user2'), (select id from users where username='user10'));
+insert into follower (user_id, follower_id)
+values ((select id from users where username='user3'), (select id from users where username='user10'));
+
+-- add repost sample
+insert into post(id, user_id, type, content, refer)
+values (
+  uuid_generate_v4(),
+  (select id from users where username='user10'),
+  'repost',
+  null,
+  (select id from post where user_id = (select id from users where username='user10') order by posted_at desc limit 1)
+);
+
+-- add quote sample
+insert into post(id, user_id, type, content, refer)
+values (
+  uuid_generate_v4(),
+  (select id from users where username='user10'),
+  'quote',
+  'This is a quote comment for a quote-post',
+  (select id from post where user_id = (select id from users where username='user10') order by posted_at desc limit 1 offset 2)
+);
+
+-- this should be future reply post
+insert into post(id, user_id, type, content, refer)
+values (
+  uuid_generate_v4(),
+  (select id from users where username='user10'),
+  'reply',
+  'This is reply to a post',
+  (select id from post where user_id = (select id from users where username='user10') order by posted_at desc limit 1 offset 4)
+);
+

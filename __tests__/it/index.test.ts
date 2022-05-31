@@ -5,6 +5,6 @@ describe('#it Index', () => {
   test('root should return 200', async () => {
     const result = await request(app).get('/').send();
     expect(result.status).toBe(200);
-    expect(result.body.info).toBe('OK!');
+    expect(result.body.info).toBe('Posterr Api');
   });
 });

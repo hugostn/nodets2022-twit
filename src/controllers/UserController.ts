@@ -1,7 +1,7 @@
 import {
   NextFunction, Request, Response, Router,
 } from 'express';
-import { validate } from 'uuid';
+import { validate as isUuid } from 'uuid';
 import UserService from '../services/UserService';
 import FeedService from '../services/FeedService';
 
@@ -24,12 +24,25 @@ export type GetFeedPostBody = {
   size?: number,
 };
 
+PostController.get('/:id', async (req: Request<GetFeedPostBody, GetFeedPostBody>, res: Response) => {
+  const { id } = req.params;
+
+  const result = isUuid(id)
+    ? await UserService.findOne(id)
+    : await UserService.findByUsername(id);
+
+  res.json({ data: result });
+});
+
 PostController.get('/:id/feed', async (req: Request<GetFeedPostBody, GetFeedPostBody>, res: Response) => {
   const { id } = req.params;
   const { page: pageParam, size: sizeParam } = req.query;
   const page = !pageParam ? undefined : Number(pageParam);
   const size = !sizeParam ? undefined : Number(sizeParam);
-  const result = await FeedService.getFeedByUserId(id, page, size);
+
+  const userId = isUuid(id) ? id : (await UserService.findByUsername(id))?.id;
+
+  const result = await FeedService.getFeedByUserId(userId, page, size);
   res.json({ data: result });
 });
 
@@ -37,7 +50,7 @@ PostController.post('/:follower/follow/:followed', async (req: Request<FollowPos
   try {
     const { followed: userId, follower: followerId } = req.params;
 
-    if (!validate(userId)) {
+    if (!isUuid(userId)) {
       next(new Error('id should be a valid uuid'));
       return;
     }
@@ -57,7 +70,7 @@ PostController.delete('/:follower/follow/:followed', async (req: Request<FollowP
   try {
     const { followed: userId, follower: followerId } = req.params;
 
-    if (!validate(userId)) {
+    if (!isUuid(userId)) {
       next(new Error('id should be a valid uuid'));
       return;
     }
