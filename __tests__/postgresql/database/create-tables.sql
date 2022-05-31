@@ -8,7 +8,7 @@ create table users (
 	first_name varchar(50) not null,
 	last_name varchar(50) not null,
 	email varchar(150) not null unique,
-    joined_at timestamp with time zone default now(),
+  joined_at timestamp with time zone default now(),
 	check (username ~ '[a-zA-Z0-9]+')
 );
 create unique index users_lower_username_idx on users(lower(username));
@@ -31,8 +31,9 @@ create table post (
 	user_id uuid not null,
 	type post_type not null,
 	posted_at timestamp with time zone default now(),
-	content varchar(777) not null,
+	content varchar(777) null,
 	refer uuid null,
+	check ((type <> 'repost' and content is not null) or (type = 'repost' and content is null)),
 	constraint post_user_fk foreign key (user_id) references users(id),
 	constraint post_refer_fk foreign key (refer) references post(id)
 );
