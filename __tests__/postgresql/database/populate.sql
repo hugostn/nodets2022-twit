@@ -6,7 +6,7 @@ declare
 	rec record;
   	cur_users cursor for
 		SELECT 'insert into users (id, username, first_name, last_name, email) '||
-		   'values (''' || uuid_generate_v4() || ''', ''user' || num || ''', ''fname' || num || ''', ''lname' || num || ''', ''mail' || num || '@posterr.com'');'::text as cmd
+		   'values (''' || uuid_generate_v4() || ''', ''user' || num || ''', ''fname' || num || ''', ''lname' || num || ''', ''mail' || num || '@twit.com'');'::text as cmd
 		FROM generate_series(1, 100) num
 		;
 	cur_post cursor for

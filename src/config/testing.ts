@@ -1,10 +1,10 @@
 export default {
   testing: true,
   db: {
-    user: 'posterr',
+    user: 'twit',
     host: 'localhost',
-    database: 'posterr',
-    password: 'posterr',
+    database: 'twit',
+    password: 'twit',
     port: 5433,
   },
 };

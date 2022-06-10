@@ -12,6 +12,6 @@ export default async (): Promise<void> => {
   console.log('Launching docker container');
   exec('docker-compose -f "__tests__/postgresql/docker-compose-yml" up --force-recreate -d -V');
   console.log('...waiting to start');
-  exec('until docker exec -u 0 postgresql_posterr_db_1 pg_isready; do sleep 2; done');
+  exec('until docker exec -u 0 postgresql_twit_db_1 pg_isready; do sleep 2; done');
   console.log('Launching docker container');
 };

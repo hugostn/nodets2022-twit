@@ -9,7 +9,7 @@ export type GetFeedQParams = {
 };
 
 IndexController.get('/', (req: Request, res: Response) => res.json({
-  info: 'Posterr Api',
+  info: 'Node Typescript 2022 - Twit Api',
   services: {
     info: [
       'GET /info',

@@ -5,7 +5,7 @@ import { validate as isUuid } from 'uuid';
 import UserService from '../services/UserService';
 import FeedService from '../services/FeedService';
 
-const PostController: Router = Router();
+const UserController: Router = Router();
 
 export type FollowPostBody = {
   followed: string,
@@ -24,7 +24,7 @@ export type GetFeedPostBody = {
   size?: number,
 };
 
-PostController.get('/:id', async (req: Request<GetFeedPostBody, GetFeedPostBody>, res: Response) => {
+UserController.get('/:id', async (req: Request<GetFeedPostBody, GetFeedPostBody>, res: Response) => {
   const { id } = req.params;
 
   const result = isUuid(id)
@@ -34,7 +34,7 @@ PostController.get('/:id', async (req: Request<GetFeedPostBody, GetFeedPostBody>
   res.json({ data: result });
 });
 
-PostController.get('/:id/feed', async (req: Request<GetFeedPostBody, GetFeedPostBody>, res: Response) => {
+UserController.get('/:id/feed', async (req: Request<GetFeedPostBody, GetFeedPostBody>, res: Response) => {
   const { id } = req.params;
   const { page: pageParam, size: sizeParam } = req.query;
   const page = !pageParam ? undefined : Number(pageParam);
@@ -46,7 +46,7 @@ PostController.get('/:id/feed', async (req: Request<GetFeedPostBody, GetFeedPost
   res.json({ data: result });
 });
 
-PostController.post('/:follower/follow/:followed', async (req: Request<FollowPostBody>, res: Response, next: NextFunction) => {
+UserController.post('/:follower/follow/:followed', async (req: Request<FollowPostBody>, res: Response, next: NextFunction) => {
   try {
     const { followed: userId, follower: followerId } = req.params;
 
@@ -66,7 +66,7 @@ PostController.post('/:follower/follow/:followed', async (req: Request<FollowPos
   }
 });
 
-PostController.delete('/:follower/follow/:followed', async (req: Request<FollowPostBody>, res: Response, next: NextFunction) => {
+UserController.delete('/:follower/follow/:followed', async (req: Request<FollowPostBody>, res: Response, next: NextFunction) => {
   try {
     const { followed: userId, follower: followerId } = req.params;
 
@@ -86,4 +86,4 @@ PostController.delete('/:follower/follow/:followed', async (req: Request<FollowP
   }
 });
 
-export default PostController;
+export default UserController;

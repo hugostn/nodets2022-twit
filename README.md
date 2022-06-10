@@ -1,4 +1,4 @@
-# Tiago Gomes Sant'Ana
+# Sample Twitter like api for study purpose
 
 ## Installation
 
